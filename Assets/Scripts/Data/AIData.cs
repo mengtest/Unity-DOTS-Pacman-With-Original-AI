@@ -8,12 +8,8 @@ public enum State { Wait, Init, Scatter, Chase, Run };
 public struct AIData : IComponentData
 {
     public State state;
-    public float2 dfWaypoint1;
-    public float2 dfWaypoint2;
-    public float2 dfWaypoint3;
-    public float2 dfWaypoint4;
-    public float2 dfWaypoint5;
-    public float2 dfWaypoint6;
     public float time;
+    public float3 target;
+    public Dir MainDir;
 }
 
