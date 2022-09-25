@@ -5,17 +5,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
-
-partial struct Calculate : IJobEntity
-{
-    public NativeArray<DecisionLocData> decisionLocData;
-    public NativeArray<float> OutData;
-    void Execute([EntityInQueryIndex] int entityInQueryIndex, ref Translation translation)
-    {
-        OutData[entityInQueryIndex] = math.distance(decisionLocData[entityInQueryIndex].Loc, translation.Value);
-    }
-}
-
+[AlwaysSynchronizeSystem]
 public partial class AISystem : SystemBase
 {
     protected override void OnUpdate()
@@ -25,17 +15,13 @@ public partial class AISystem : SystemBase
         Entities.WithAll<AIData>()
             .ForEach((ref AIData aiData, ref PhysicsVelocity physicsVelocity , ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, in DynamicBuffer<DecisionDir> DecisionDir) =>
             {
-                
-                DecisionPoint(ref physicsVelocity, ref translation, in DecisionLoc, ref aiData, DecisionDir);
-
-               
-                /*switch (aiData.state)
+                switch (aiData.state)
                 {
                     case State.Wait:
                         Wait(ref aiData, ref physicsVelocity,in translation, in elapsedTime);
                         break;
                     case State.Init:
-                        
+                        DecisionPoint(ref physicsVelocity, ref translation, in DecisionLoc, ref aiData, DecisionDir);
                         break;
                     case State.Scatter:
                         break;
@@ -45,7 +31,7 @@ public partial class AISystem : SystemBase
                         break;
                     default:
                         break;
-                }*/
+                }
             }).WithoutBurst().Run();
     }
 
@@ -53,7 +39,7 @@ public partial class AISystem : SystemBase
     {
         if (elapsedTime >= aIData.time)
         {
-            
+            aIData.state = State.Init;
         }
     }
     static void DecisionPoint(ref PhysicsVelocity physicsVelocity, ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, ref AIData aIData , in DynamicBuffer<DecisionDir> decisionDirData)
@@ -123,7 +109,6 @@ public partial class AISystem : SystemBase
                 break;
             }
         }
-
         if (max == UpDis)
         {
             aIData.MainDir = Dir.up;
@@ -140,27 +125,36 @@ public partial class AISystem : SystemBase
         {
             aIData.MainDir = Dir.right;
         }
-
-        switch (aIData.MainDir)
+        if (aIData.PrevDir != aIData.MainDir)
         {
-            case Dir.up:
-                physicsVelocity.Linear.y = 1f;
-                physicsVelocity.Linear.x = 0f;
-                break;
-            case Dir.left:
-                physicsVelocity.Linear.x = -1f;
-                physicsVelocity.Linear.y = 0f;
-                break;
-            case Dir.down:
-                physicsVelocity.Linear.y = -1f;
-                physicsVelocity.Linear.x = 0f;
-                break;
-            case Dir.right:
-                physicsVelocity.Linear.x = 1f;
-                physicsVelocity.Linear.y = 0f;
-                break;
-            default:
-                break;
+            switch (aIData.MainDir)
+            {
+                case Dir.up:
+                    physicsVelocity.Linear.y = aIData.Speed;
+                    translation.Value.y += 0.1f;
+                    physicsVelocity.Linear.x = 0f;
+                    break;
+                case Dir.left:
+                    physicsVelocity.Linear.x = -aIData.Speed;
+                    translation.Value.x -= 0.1f;
+                    physicsVelocity.Linear.y = 0f;
+                    break;
+                case Dir.down:
+                    physicsVelocity.Linear.y = -aIData.Speed;
+                    translation.Value.y -= 0.1f;
+                    physicsVelocity.Linear.x = 0f;
+                    break;
+                case Dir.right:
+                    physicsVelocity.Linear.x = aIData.Speed;
+                    translation.Value.x += 0.1f;
+                    physicsVelocity.Linear.y = 0f;
+                    break;
+                default:
+                    break;
+            }
+            aIData.PrevDir = aIData.MainDir;
         }
+
+        
     }
 }

@@ -11,5 +11,7 @@ public struct AIData : IComponentData
     public float time;
     public float3 target;
     public Dir MainDir;
+    public Dir PrevDir;
+    public float Speed;
 }
 
