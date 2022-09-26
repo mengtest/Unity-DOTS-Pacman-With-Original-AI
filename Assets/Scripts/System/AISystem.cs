@@ -18,7 +18,7 @@ public partial class AISystem : SystemBase
                 switch (aiData.state)
                 {
                     case State.Wait:
-                        Wait(ref aiData, ref physicsVelocity,in translation, in elapsedTime);
+                        Wait(ref aiData, ref physicsVelocity,ref translation, in elapsedTime);
                         break;
                     case State.Init:
                         DecisionPoint(ref physicsVelocity, ref translation, in DecisionLoc, ref aiData, DecisionDir);
@@ -35,15 +35,28 @@ public partial class AISystem : SystemBase
             }).WithBurst().ScheduleParallel();
     }
 
-    static void Wait(ref AIData aIData,  ref PhysicsVelocity physicsVelocity, in Translation translation, in float elapsedTime)
+    static void Wait(ref AIData aIData,  ref PhysicsVelocity physicsVelocity, ref Translation translation, in float elapsedTime)
     {
         if (elapsedTime >= aIData.time)
         {
+            translation.Value.y = 1f;
+            physicsVelocity.Linear.y = 0f;
             aIData.state = State.Init;
         }
         else
         {
-            
+            if (physicsVelocity.Linear.y == 0)
+            {
+                physicsVelocity.Linear.y = 2f;
+            }
+            else if ((physicsVelocity.Linear.y > 1f) && (translation.Value.y >= 1.5f))
+            {
+                physicsVelocity.Linear.y = -2f;
+            }
+            else if((physicsVelocity.Linear.y < -1f) && (translation.Value.y <= 0.5f))
+            {
+                physicsVelocity.Linear.y = 2f;
+            }
         }
     }
     static void DecisionPoint(ref PhysicsVelocity physicsVelocity, ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, ref AIData aIData , in DynamicBuffer<DecisionDir> decisionDirData)
