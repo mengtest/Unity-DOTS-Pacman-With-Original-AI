@@ -32,7 +32,7 @@ public partial class AISystem : SystemBase
                     default:
                         break;
                 }
-            }).WithoutBurst().Run();
+            }).WithBurst().ScheduleParallel();
     }
 
     static void Wait(ref AIData aIData,  ref PhysicsVelocity physicsVelocity, in Translation translation, in float elapsedTime)
@@ -40,6 +40,10 @@ public partial class AISystem : SystemBase
         if (elapsedTime >= aIData.time)
         {
             aIData.state = State.Init;
+        }
+        else
+        {
+            
         }
     }
     static void DecisionPoint(ref PhysicsVelocity physicsVelocity, ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, ref AIData aIData , in DynamicBuffer<DecisionDir> decisionDirData)
@@ -53,7 +57,7 @@ public partial class AISystem : SystemBase
         {
             if (math.distance(DecisionLoc[i].Loc,translation.Value) <= 0.0001f)
             {
-                if (decisionDirData[i].dir.HasFlag(Dir.up))
+                if ((decisionDirData[i].dir & Dir.up) == Dir.up)
                 {
                     
                     if (aIData.MainDir != Dir.down)
@@ -67,7 +71,7 @@ public partial class AISystem : SystemBase
                         }
                     }
                 }
-                if (decisionDirData[i].dir.HasFlag(Dir.down))
+                if ((decisionDirData[i].dir & Dir.down) == Dir.down)
                 {
                     if (aIData.MainDir != Dir.up)
                     {
@@ -80,7 +84,7 @@ public partial class AISystem : SystemBase
                         }
                     }
                 }
-                if (decisionDirData[i].dir.HasFlag(Dir.left))
+                if ((decisionDirData[i].dir & Dir.left) == Dir.left)
                 {
                     if (aIData.MainDir != Dir.right)
                     {
@@ -93,7 +97,7 @@ public partial class AISystem : SystemBase
                         }
                     }
                 }
-                if (decisionDirData[i].dir.HasFlag(Dir.right))
+                if ((decisionDirData[i].dir & Dir.right) == Dir.right)
                 {
                     if (aIData.MainDir != Dir.left)
                     {
