@@ -6026,6 +6026,9 @@ GameObject:
   - component: {fileID: 590990258}
   - component: {fileID: 590990257}
   - component: {fileID: 590990259}
+  - component: {fileID: 590990260}
+  - component: {fileID: 590990261}
+  - component: {fileID: 590990262}
   m_Layer: 0
   m_Name: Pacman
   m_TagString: Untagged
@@ -6176,6 +6179,298 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
+--- !u!114 &590990260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590990254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69d77db62980134da21e621567732c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainDir: 0
+  predDir: 0
+--- !u!114 &590990261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590990254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb31e8d5ff4301489656ffd5d0bc7a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Values:
+  - x: 0
+    y: 1
+    z: 0
+  - x: 0
+    y: 4
+    z: 0
+  - x: 1.5
+    y: 4
+    z: 0
+  - x: 4.5
+    y: 4
+    z: 0
+  - x: 7.5
+    y: 4
+    z: 0
+  - x: 10.5
+    y: 4
+    z: 0
+  - x: 12.5
+    y: 4
+    z: 0
+  - x: -1.5
+    y: 4
+    z: 0
+  - x: -4.5
+    y: 4
+    z: 0
+  - x: -7.5
+    y: 4
+    z: 0
+  - x: -10.5
+    y: 4
+    z: 0
+  - x: -12.5
+    y: 4
+    z: 0
+  - x: -12.5
+    y: 7
+    z: 0
+  - x: -10.5
+    y: 7
+    z: 0
+  - x: -7.5
+    y: 7
+    z: 0
+  - x: -4.5
+    y: 7
+    z: 0
+  - x: -1.5
+    y: 7
+    z: 0
+  - x: 1.5
+    y: 7
+    z: 0
+  - x: 4.5
+    y: 7
+    z: 0
+  - x: 7.5
+    y: 7
+    z: 0
+  - x: 10.5
+    y: 7
+    z: 0
+  - x: 12.5
+    y: 7
+    z: 0
+  - x: 12.5
+    y: 10
+    z: 0
+  - x: 7.5
+    y: 10
+    z: 0
+  - x: 4.5
+    y: 10
+    z: 0
+  - x: 1.5
+    y: 10
+    z: 0
+  - x: -1.5
+    y: 10
+    z: 0
+  - x: -4.5
+    y: 10
+    z: 0
+  - x: -7.5
+    y: 10
+    z: 0
+  - x: -12.5
+    y: 10
+    z: 0
+  - x: -12.5
+    y: 14
+    z: 0
+  - x: -7.5
+    y: 14
+    z: 0
+  - x: -1.5
+    y: 14
+    z: 0
+  - x: 1.5
+    y: 14
+    z: 0
+  - x: 7.5
+    y: 14
+    z: 0
+  - x: 12.5
+    y: 14
+    z: 0
+  - x: -12.5
+    y: -2
+    z: 0
+  - x: -10.5
+    y: -2
+    z: 0
+  - x: -4.5
+    y: -2
+    z: 0
+  - x: 4.5
+    y: -2
+    z: 0
+  - x: 10.5
+    y: -2
+    z: 0
+  - x: 12.5
+    y: -2
+    z: 0
+  - x: 12.5
+    y: -5
+    z: 0
+  - x: 10.5
+    y: -5
+    z: 0
+  - x: 7.5
+    y: -5
+    z: 0
+  - x: 4.5
+    y: -5
+    z: 0
+  - x: 1.5
+    y: -5
+    z: 0
+  - x: -1.5
+    y: -5
+    z: 0
+  - x: -4.5
+    y: -5
+    z: 0
+  - x: -7.5
+    y: -5
+    z: 0
+  - x: -10.5
+    y: -5
+    z: 0
+  - x: -12.5
+    y: -5
+    z: 0
+  - x: -12.5
+    y: -8
+    z: 0
+  - x: -10.5
+    y: -8
+    z: 0
+  - x: -7.5
+    y: -8
+    z: 0
+  - x: -4.5
+    y: -8
+    z: 0
+  - x: -1.5
+    y: -8
+    z: 0
+  - x: 1.5
+    y: -8
+    z: 0
+  - x: 4.5
+    y: -8
+    z: 0
+  - x: 7.5
+    y: -8
+    z: 0
+  - x: 10.5
+    y: -8
+    z: 0
+  - x: 12.5
+    y: -8
+    z: 0
+  - x: 12.5
+    y: -11
+    z: 0
+  - x: 10.5
+    y: -11
+    z: 0
+  - x: 7.5
+    y: -11
+    z: 0
+  - x: 4.5
+    y: -11
+    z: 0
+  - x: 1.5
+    y: -11
+    z: 0
+  - x: -1.5
+    y: -11
+    z: 0
+  - x: -4.5
+    y: -11
+    z: 0
+  - x: -7.5
+    y: -11
+    z: 0
+  - x: -10.5
+    y: -11
+    z: 0
+  - x: -12.5
+    y: -11
+    z: 0
+  - x: -12.5
+    y: -14
+    z: 0
+  - x: -7.5
+    y: -14
+    z: 0
+  - x: -1.5
+    y: -14
+    z: 0
+  - x: 1.5
+    y: -14
+    z: 0
+  - x: 7.5
+    y: -14
+    z: 0
+  - x: 12.5
+    y: -14
+    z: 0
+  - x: 1.5
+    y: 12
+    z: 0
+  - x: -1.5
+    y: 12
+    z: 0
+  - x: -12.5
+    y: 1
+    z: 0
+  - x: -7.5
+    y: 1
+    z: 0
+  - x: 7.5
+    y: 1
+    z: 0
+  - x: 12.5
+    y: 1
+    z: 0
+--- !u!114 &590990262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590990254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37bc809b9e0be6841854cd676dc076dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Values: 010000000a0000000b0000000e0000000700000009000000060000000b0000000e0000000d000000030000000c000000090000000e0000000700000009000000060000000c000000030000000d0000000e0000000300000007000000ffffffff0e00000009000000030000000e000000ffffffff0d0000000c0000000e000000060000000c0000000e0000000600000009000000060000000d000000070000000c00000003000000060000000b000000ffffffff0b0000000e0000000e0000000b000000ffffffff0b0000000c00000009000000060000000d0000000e00000003000000090000000e000000070000000c00000003000000060000000b0000000d000000030000000c0000000600000009000000070000000b0000000c000000090000000b0000000b0000000b0000000b00000003000000070000000d0000000d000000070000000d00000007000000
 --- !u!1 &592105902 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 151032, guid: e51e4ed36b94fe24f8dc937c5aac9052, type: 3}
@@ -10836,6 +11131,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 420082, guid: 1b3fd45832d3ec34b978f979ff9c97ea, type: 3}
   m_PrefabInstance: {fileID: 983904173}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &988116591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 988116592}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &988116592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988116591}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.5, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &997448143
 PrefabInstance:
   m_ObjectHideFlags: 0
