@@ -24,9 +24,9 @@ public partial class AnimatorSystem : SystemBase
     protected override void OnUpdate()
     {
         Entities.WithAll<AnimatorData>()
-            .ForEach((in AnimatorData animData,in PhysicsVelocity physicsVelocity) => {
-                animData.animator.SetFloat("DirX",physicsVelocity.Linear.x);
-                animData.animator.SetFloat("DirY", physicsVelocity.Linear.y);
+            .ForEach((in AnimatorData animData,in MoveData moveData) => {
+                animData.animator.SetFloat("DirX",moveData.moveDir.x);
+                animData.animator.SetFloat("DirY", moveData.moveDir.y);
             }).WithoutBurst().Run();
     }
 }

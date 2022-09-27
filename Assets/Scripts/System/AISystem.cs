@@ -13,15 +13,15 @@ public partial class AISystem : SystemBase
         
         float elapsedTime = (float)Time.ElapsedTime;
         Entities.WithAll<AIData>()
-            .ForEach((ref AIData aiData, ref PhysicsVelocity physicsVelocity , ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, in DynamicBuffer<DecisionDir> DecisionDir) =>
+            .ForEach((ref AIData aiData, ref MoveData moveData , ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, in DynamicBuffer<DecisionDir> DecisionDir) =>
             {
                 switch (aiData.state)
                 {
                     case State.Wait:
-                        Wait(ref aiData, ref physicsVelocity,ref translation, in elapsedTime);
+                        Wait(ref aiData, ref moveData, ref translation, in elapsedTime);
                         break;
                     case State.Init:
-                        DecisionPoint(ref physicsVelocity, ref translation, in DecisionLoc, ref aiData, DecisionDir);
+                        DecisionPoint(ref moveData, ref translation, in DecisionLoc, ref aiData, DecisionDir);
                         break;
                     case State.Scatter:
                         break;
@@ -35,31 +35,31 @@ public partial class AISystem : SystemBase
             }).WithBurst().ScheduleParallel();
     }
 
-    static void Wait(ref AIData aIData,  ref PhysicsVelocity physicsVelocity, ref Translation translation, in float elapsedTime)
+    static void Wait(ref AIData aIData,  ref MoveData moveData, ref Translation translation, in float elapsedTime)
     {
         if (elapsedTime >= aIData.time)
         {
             translation.Value.y = 1f;
-            physicsVelocity.Linear.y = 0f;
+            moveData.moveDir.y = 0f;
             aIData.state = State.Init;
         }
         else
         {
-            if (physicsVelocity.Linear.y == 0)
+            if (moveData.moveDir.y == 0)
             {
-                physicsVelocity.Linear.y = 2f;
+                moveData.moveDir.y = 2f;
             }
-            else if ((physicsVelocity.Linear.y > 1f) && (translation.Value.y >= 1.5f))
+            else if ((moveData.moveDir.y > 1f) && (translation.Value.y >= 1.5f))
             {
-                physicsVelocity.Linear.y = -2f;
+                moveData.moveDir.y = -2f;
             }
-            else if((physicsVelocity.Linear.y < -1f) && (translation.Value.y <= 0.5f))
+            else if((moveData.moveDir.y < -1f) && (translation.Value.y <= 0.5f))
             {
-                physicsVelocity.Linear.y = 2f;
+                moveData.moveDir.y = 2f;
             }
         }
     }
-    static void DecisionPoint(ref PhysicsVelocity physicsVelocity, ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, ref AIData aIData , in DynamicBuffer<DecisionDir> decisionDirData)
+    static void DecisionPoint(ref MoveData moveData, ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, ref AIData aIData , in DynamicBuffer<DecisionDir> decisionDirData)
     {
         float UpDis = 0;
         float DownDis = 0;
@@ -68,8 +68,9 @@ public partial class AISystem : SystemBase
         float max = float.MaxValue;
         for (int i = 0; i < DecisionLoc.Capacity; i++)
         {
-            if (math.distance(DecisionLoc[i].Loc,translation.Value) <= 0.0001f)
+            if (math.distance(DecisionLoc[i].Loc,translation.Value) <= 0.001f)
             {
+                translation.Value = DecisionLoc[i].Loc;
                 if ((decisionDirData[i].dir & Dir.up) == Dir.up)
                 {
                     
@@ -147,24 +148,24 @@ public partial class AISystem : SystemBase
             switch (aIData.MainDir)
             {
                 case Dir.up:
-                    physicsVelocity.Linear.y = aIData.Speed;
+                    moveData.moveDir.y = aIData.Speed;
                     translation.Value.y += 0.1f;
-                    physicsVelocity.Linear.x = 0f;
+                    moveData.moveDir.x = 0f;
                     break;
                 case Dir.left:
-                    physicsVelocity.Linear.x = -aIData.Speed;
+                    moveData.moveDir.x = -aIData.Speed;
                     translation.Value.x -= 0.1f;
-                    physicsVelocity.Linear.y = 0f;
+                    moveData.moveDir.y = 0f;
                     break;
                 case Dir.down:
-                    physicsVelocity.Linear.y = -aIData.Speed;
+                    moveData.moveDir.y = -aIData.Speed;
                     translation.Value.y -= 0.1f;
-                    physicsVelocity.Linear.x = 0f;
+                    moveData.moveDir.x = 0f;
                     break;
                 case Dir.right:
-                    physicsVelocity.Linear.x = aIData.Speed;
+                    moveData.moveDir.x = aIData.Speed;
                     translation.Value.x += 0.1f;
-                    physicsVelocity.Linear.y = 0f;
+                    moveData.moveDir.y = 0f;
                     break;
                 default:
                     break;

@@ -27,10 +27,10 @@ public partial class DeadSystem : SystemBase
 
         Entities
             .WithAll<DeadTag>()
-            .ForEach((ref PhysicsVelocity physicsVelocity,in AnimatorData animatorData) => {
+            .ForEach((ref MoveData moveData,in AnimatorData animatorData) => {
                 animatorData.animator.SetBool("Die", true);
-                physicsVelocity.Linear.x = 0f;
-                physicsVelocity.Linear.y = 0f;
+                moveData.moveDir.x = 0f;
+                moveData.moveDir.y = 0f;
             }).WithoutBurst().Run();
 
         this.Dependency.Complete();

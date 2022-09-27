@@ -13,7 +13,7 @@ public partial class InputSystem : SystemBase
         Entities
             .WithAll<InputTag>()
             .WithNone<DeadTag>()
-            .ForEach((ref InputTag inputTag, ref Translation translation, ref PhysicsVelocity physicsVelocity, in DynamicBuffer<DecisionDir> decisionDirData, in DynamicBuffer<DecisionLocData> DecisionLoc) =>
+            .ForEach((ref InputTag inputTag, ref Translation translation, ref MoveData moveData, in DynamicBuffer<DecisionDir> decisionDirData, in DynamicBuffer<DecisionLocData> DecisionLoc) =>
             {
                 bool up = Input.GetKeyDown(KeyCode.W);
                 bool down = Input.GetKeyDown(KeyCode.S);
@@ -43,11 +43,11 @@ public partial class InputSystem : SystemBase
                     switch (inputTag.predDir)
                     {
                         case Dir.left:
-                            physicsVelocity.Linear.x = -2f;
+                            moveData.moveDir.x = -2f;
                             inputTag.mainDir = inputTag.predDir;
                             break;
                         case Dir.right:
-                            physicsVelocity.Linear.x = 2f;
+                            moveData.moveDir.x = 2f;
                             inputTag.mainDir = inputTag.predDir;
                             break;
                         default:
@@ -61,42 +61,42 @@ public partial class InputSystem : SystemBase
                     {
                         if ((decisionDirData[i].dir & Dir.up) == Dir.up && inputTag.predDir == Dir.up)
                         {
-                            physicsVelocity.Linear.y = 2f;
+                            moveData.moveDir.y = 2f;
                             translation.Value.y += 0.1f;
-                            physicsVelocity.Linear.x = 0f;
+                            moveData.moveDir.x = 0f;
                             IsDecisionPoint = true;
                             inputTag.mainDir = Dir.up;
                             break;
                         }
                         if ((decisionDirData[i].dir & Dir.down) == Dir.down && inputTag.predDir == Dir.down)
                         {
-                            physicsVelocity.Linear.y = -2f;
+                            moveData.moveDir.y = -2f;
                             translation.Value.y -= 0.1f;
-                            physicsVelocity.Linear.x = 0f;
+                            moveData.moveDir.x = 0f;
                             IsDecisionPoint = true;
                             inputTag.mainDir = Dir.down;
                             break;
                         }
                         if ((decisionDirData[i].dir & Dir.left) == Dir.left && inputTag.predDir == Dir.left)
                         {
-                            physicsVelocity.Linear.x = -2f;
+                            moveData.moveDir.x = -2f;
                             translation.Value.x -= 0.1f;
-                            physicsVelocity.Linear.y = 0f;
+                            moveData.moveDir.y = 0f;
                             IsDecisionPoint = true;
                             inputTag.mainDir = Dir.left;
                             break;
                         }
                         if ((decisionDirData[i].dir & Dir.right) == Dir.right && inputTag.predDir == Dir.right)
                         {
-                            physicsVelocity.Linear.x = 2f;
+                            moveData.moveDir.x = 2f;
                             translation.Value.x += 0.1f;
-                            physicsVelocity.Linear.y = 0f;
+                            moveData.moveDir.y = 0f;
                             IsDecisionPoint = true;
                             inputTag.mainDir = Dir.right;
                             break;
                         }
-                        physicsVelocity.Linear.x = 0f;
-                        physicsVelocity.Linear.y = 0f;
+                        moveData.moveDir.x = 0f;
+                        moveData.moveDir.y = 0f;
                         IsDecisionPoint = true;
                         break;
 
@@ -109,11 +109,11 @@ public partial class InputSystem : SystemBase
                         switch (inputTag.predDir)
                         {
                             case Dir.left:
-                                physicsVelocity.Linear.x = -2f;
+                                moveData.moveDir.x = -2f;
                                 inputTag.mainDir = inputTag.predDir;
                                 break;
                             case Dir.right:
-                                physicsVelocity.Linear.x = 2f;
+                                moveData.moveDir.x = 2f;
                                 inputTag.mainDir = inputTag.predDir;
                                 break;
                             default:
@@ -125,11 +125,11 @@ public partial class InputSystem : SystemBase
                         switch (inputTag.predDir)
                         {
                             case Dir.up:
-                                physicsVelocity.Linear.y = 2f;
+                                moveData.moveDir.y = 2f;
                                 inputTag.mainDir = inputTag.predDir;
                                 break;
                             case Dir.down:
-                                physicsVelocity.Linear.y = -2f;
+                                moveData.moveDir.y = -2f;
                                 inputTag.mainDir = inputTag.predDir;
                                 break;
                             default:
