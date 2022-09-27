@@ -13,5 +13,6 @@ public struct AIData : IComponentData
     public Dir MainDir;
     public Dir PrevDir;
     public float Speed;
+    public int limitWaypoint;
 }
 

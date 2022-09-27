@@ -59,6 +59,7 @@ public partial class InputSystem : SystemBase
                 {
                     if (math.distance(DecisionLoc[i].Loc, translation.Value) <= 0.0001f)
                     {
+                        translation.Value = DecisionLoc[i].Loc;
                         if ((decisionDirData[i].dir & Dir.up) == Dir.up && inputTag.predDir == Dir.up)
                         {
                             moveData.moveDir.y = 2f;

@@ -13,7 +13,8 @@ public partial class AISystem : SystemBase
         
         float elapsedTime = (float)Time.ElapsedTime;
         Entities.WithAll<AIData>()
-            .ForEach((ref AIData aiData, ref MoveData moveData , ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, in DynamicBuffer<DecisionDir> DecisionDir) =>
+            .ForEach((ref AIData aiData, ref MoveData moveData , ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, 
+            in DynamicBuffer<DecisionDir> DecisionDir, in TargetData targetData) =>
             {
                 switch (aiData.state)
                 {
@@ -21,11 +22,12 @@ public partial class AISystem : SystemBase
                         Wait(ref aiData, ref moveData, ref translation, in elapsedTime);
                         break;
                     case State.Init:
-                        DecisionPoint(ref moveData, ref translation, in DecisionLoc, ref aiData, DecisionDir);
+                        Move(ref moveData, ref translation, in DecisionLoc, ref aiData, in aiData.target, DecisionDir);
                         break;
                     case State.Scatter:
                         break;
                     case State.Chase:
+                        Move(ref moveData, ref translation, in DecisionLoc, ref aiData, in targetData.target, DecisionDir);
                         break;
                     case State.Run:
                         break;
@@ -59,7 +61,8 @@ public partial class AISystem : SystemBase
             }
         }
     }
-    static void DecisionPoint(ref MoveData moveData, ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, ref AIData aIData , in DynamicBuffer<DecisionDir> decisionDirData)
+    static void Move(ref MoveData moveData, ref Translation translation, in DynamicBuffer<DecisionLocData> DecisionLoc, ref AIData aIData,
+        in float3 target, in DynamicBuffer<DecisionDir> decisionDirData)
     {
         float UpDis = 0;
         float DownDis = 0;
@@ -78,7 +81,7 @@ public partial class AISystem : SystemBase
                     {
                         float3 DirLoc = translation.Value;
                         DirLoc.y += 0.5f;
-                        UpDis = math.distance(DirLoc, aIData.target);
+                        UpDis = math.distance(DirLoc, target);
                         if (UpDis < max)
                         {
                             max = UpDis;
@@ -91,7 +94,7 @@ public partial class AISystem : SystemBase
                     {
                         float3 DirLoc = translation.Value;
                         DirLoc.y += -0.5f;
-                        DownDis = math.distance(DirLoc, aIData.target);
+                        DownDis = math.distance(DirLoc, target);
                         if (DownDis < max)
                         {
                             max = DownDis;
@@ -104,7 +107,7 @@ public partial class AISystem : SystemBase
                     {
                         float3 DirLoc = translation.Value;
                         DirLoc.x += -0.5f;
-                        LeftDis = math.distance(DirLoc, aIData.target);
+                        LeftDis = math.distance(DirLoc, target);
                         if (LeftDis < max)
                         {
                             max = LeftDis;
@@ -117,7 +120,7 @@ public partial class AISystem : SystemBase
                     {
                         float3 DirLoc = translation.Value;
                         DirLoc.x += 0.5f;
-                        RightDis = math.distance(DirLoc, aIData.target);
+                        RightDis = math.distance(DirLoc, target);
                         if (RightDis < max)
                         {
                             max = RightDis;
@@ -151,21 +154,25 @@ public partial class AISystem : SystemBase
                     moveData.moveDir.y = aIData.Speed;
                     translation.Value.y += 0.1f;
                     moveData.moveDir.x = 0f;
+                    --aIData.limitWaypoint;
                     break;
                 case Dir.left:
                     moveData.moveDir.x = -aIData.Speed;
                     translation.Value.x -= 0.1f;
                     moveData.moveDir.y = 0f;
+                    --aIData.limitWaypoint;
                     break;
                 case Dir.down:
                     moveData.moveDir.y = -aIData.Speed;
                     translation.Value.y -= 0.1f;
                     moveData.moveDir.x = 0f;
+                    --aIData.limitWaypoint;
                     break;
                 case Dir.right:
                     moveData.moveDir.x = aIData.Speed;
                     translation.Value.x += 0.1f;
                     moveData.moveDir.y = 0f;
+                    --aIData.limitWaypoint;
                     break;
                 default:
                     break;
@@ -173,6 +180,9 @@ public partial class AISystem : SystemBase
             aIData.PrevDir = aIData.MainDir;
         }
 
-        
+        if (aIData.limitWaypoint <= 0)
+        {
+            aIData.state = State.Chase;
+        }
     }
 }
